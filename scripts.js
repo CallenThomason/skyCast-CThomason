@@ -34,7 +34,21 @@ async function getWeather(cityName) {
     const response = await fetch(`${baseUrl}weather?q=${cityName}&units=imperial&appid=${urlKey}`);
     // console.log(`${baseUrl}weather?q=${cityName}&appid=${urlKey}`);
     const data = await response.json();
-    city.textContent = data.name;
+    //console.log(data); 
+    return data; 
+  
+}
+
+async function checkStatus(newData){
+    const data = await newData; 
+   // console.log(data);
+    return data.cod; 
+}
+
+async function drawCard(newData){
+    const data = await newData; 
+     city.textContent = data.name;
+    
     high.textContent = `High: ${Math.round(data.main.temp_max)}°`;
     temperature.textContent = `${Math.round(data.main.temp)}°`;
     low.textContent = `Low: ${Math.round(data.main.temp_min)}°`;
@@ -60,7 +74,6 @@ async function getWeather(cityName) {
     weatherIcon.appendChild(weatherImage);
 
     fiveDayForecast(data);
-
 }
 
 function getCityTime(time, timezone) {
@@ -74,7 +87,7 @@ function getCityDate(time, timezone) {
 }
 
 async function fiveDayForecast(data) {
-
+    fiveDayEl.replaceChildren();
 
     const lon = data.coord.lon;
     const lat = data.coord.lat;
@@ -89,7 +102,7 @@ async function fiveDayForecast(data) {
 
     for (const day of fiveDays) {
         const card = document.createElement("div");
-        card.className = "bg-white border-2 border-slate-200 rounded-lg p-6 flex-row";
+        card.className = "bg-green-200 border-2 border-slate-400 rounded-lg p-6 flex-row";
 
        const title = document.createElement("h3");
        title.className = "text-center font-semibold text-2xl";
@@ -131,7 +144,7 @@ function getDay(time, timezone){
 
 function groupByDay(list, timezone) {
     const days = {};
-    let id = 0; 
+   
     for (const item of list) {
         const date = getCityDate(item.dt, timezone);
         const day = getDay(item.dt, timezone); 
@@ -168,17 +181,27 @@ function groupByDay(list, timezone) {
 }
 
 //------Listeners------
-searchForm.addEventListener("submit", function (event) {
+searchForm.addEventListener("submit", async function (event) {
     event.preventDefault();
     console.log(cityInput.value);
-    if (cityInput.value === "") {
+    if (cityInput.value === "" ) {
+
         status.textContent = "Please enter a valid input"; 
+
         
-    }else{
-         getWeather(cityInput.value);
     }
-   
+    else if(await checkStatus(getWeather(cityInput.value)) === "404"){
+         status.textContent = `Location "${cityInput.value}" not found`; 
+           cityInput.value = ""; 
+    }
+    else{
+         status.textContent = ""; 
+         drawCard(getWeather(cityInput.value));
+         cityInput.value = ""; 
+    }
+  
 });
 
 //------Run on load------
-getWeather("Stockton");
+drawCard(getWeather("Stockton"));
+
