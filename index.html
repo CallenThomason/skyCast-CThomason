@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SkyCast</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+
+<body class="min-h-screen bg-gradient-to-br from-slate-400 to-indigo-600 text-white">
+    <header class="flex mx-auto bg-slate-800 p-4">
+        <h1 class="font-bold text-3xl">SkyCast</h1>
+    </header>
+
+    <main class="flex mx-auto max-w-5xl px-6 py-10 gap-4">
+
+        <div class="grid w-120 grid-cols-2 bg-yellow-200 border-2 border-slate-600 ">
+            <div class=" text-black font-semibold text-2xl px-3 py-2 col-span-3 flex justify-between">
+                <h2 id="city-name">Stockton</h2>
+                <h2 id="temperature">67°</h2>
+            </div>
+
+            <div class="flex flex-col font-medium text-slate-700  col-span-3">
+                <div class="flex justify-between">
+                    <p id="country" class="flex text-slate-500">United States of America</p>
+                    <p id="description" class="mx-5">Clear Skies</p>
+
+                </div>
+            </div>
+
+            <div class="flex flex-col font-medium text-slate-700 row-end-4">
+                <p id="date" class="flex text-slate-500">11/2/2026</p>
+                <p id="high">High: </p>
+                <p id="low">Low: </p>
+                <p id="feels-like">Feels like: </p>
+                <p id="humidity">Humidity: </p>
+               
+            </div>
+                 <div class="flex justify-between col-span-3 font-medium text-slate-700">
+                    <p id="wind">Wind: </p>
+                    <div class="flex font-medium text-slate-700 gap-3 mx-5">
+                        <p id="sunrise">Sunrise: </p>
+                        <p id="sunset">Sunset: </p>
+                    </div>
+                </div>
+
+                <div id="weather-icon" class="w-30 h-30 mx-auto col-start-2 row-start-3">
+            <!-- <img src="01d@2x.png" alt="Weather Icon" class="w-30 h-30 mx-auto col-start-2 row-start-3" /> -->
+
+        </div>
+        </div>
+
+        <form id="search-form" class="gap-4">
+            <input id="city-input" type="text" placeholder="Search a city..." class="bg-white text-black p-2 rounded" />
+            <button id="city-submit" type="submit" class="bg-white text-black p-2 rounded">Search</button>
+            <p id="status" class="text-center italic"></p>
+        </form>
+       
+
+       
+
+    </main>
+    <section class="flex justify-center align-center text-center gap-4">
+        <h2>5-Day Forecast</h2>
+        <ul id="forecast"></ul>
+    </section>
+    <div id="five-day" class="grid w-full h-50 grid-cols-5 gap-4 text-black mb-5">
+        <!-- <div class="bg-white border-2 border-slate-200 rounded-lg p-6 flex-row">
+            <div class="flex flex-col items-center">
+                <p class="text-center font-semibold text-2xl">Tommorow</p>
+                <p class="flex text-slate-500">11/2/2026</p>
+                <div class="flex justify-between gap-3">
+                <p>High: 75°</p>
+                <p>Low: 55°</p>
+                </div>
+                <p>Disc</p>
+                <img src="01d@2x.png" alt="Weather Icon" class="w-10 h-10 mx-auto" />
+            </div>
+        </div> -->
+       
+    </div>
+
+   <!--  <script src="config.js"></script> must load first -->
+    <script src="scripts.js"></script>
+</body>
+
+</html>
