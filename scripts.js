@@ -26,6 +26,7 @@ const status = document.getElementById("status");
 
 const time = document.getElementById("last-updated"); 
 
+const body = document.getElementById("body"); 
 
 
 //------Functions------
@@ -60,8 +61,26 @@ async function drawCard(newData){
     //console.log(data.weather[0].description); 
     description.textContent = `${data.weather[0].description}`;
 
+    if(description.textContent === "clear sky"){
+        body.className = "min-h-screen bg-[url('/assets/clearSky.png')] h-64 bg-cover bg-center text-white" 
+    }
+    else if(description.textContent.includes("rain") ){
+           body.className = "min-h-screen bg-[url('/assets/rain.png')] h-64 bg-cover bg-center text-white" 
+    }
+    else if(description.textContent.includes("clouds")){
+           body.className = "min-h-screen bg-[url('/assets/cloudy.png')] h-64 bg-cover bg-center text-white" 
+    }
+     else if(description.textContent.includes("snow")){
+           body.className = "min-h-screen bg-[url('/assets/snowy.png')] h-64 bg-cover bg-center text-white" 
+    }
+     else if(description.textContent.includes("thunderStorm")){
+           body.className = "min-h-screen bg-[url('/assets/mist.png')] h-64 bg-cover bg-center text-white" 
+    }
+    else{
+        body.className = "min-h-screen bg-gradient-to-br from-slate-400 to-indigo-600 text-white";
+    }
     sunrise.textContent = `Sunrise: ${getCityTime(data.sys.sunrise, data.timezone)}`;
-    sunset.textContent = `Sunrise: ${getCityTime(data.sys.sunset, data.timezone)}`;
+    sunset.textContent = `Sunset: ${getCityTime(data.sys.sunset, data.timezone)}`;
     dateEl.textContent = `${getCityDate(data.dt, data.timezone)}`; 
     country.textContent = `${data.sys.country}`; 
     // https://openweathermap.org/img/wn/01d@2x.png
