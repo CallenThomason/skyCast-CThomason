@@ -24,6 +24,8 @@ const fiveDayEl = document.getElementById("five-day");
 
 const status = document.getElementById("status"); 
 
+const time = document.getElementById("last-updated"); 
+
 
 
 //------Functions------
@@ -34,14 +36,14 @@ async function getWeather(cityName) {
     const response = await fetch(`${baseUrl}weather?q=${cityName}&units=imperial&appid=${urlKey}`);
     // console.log(`${baseUrl}weather?q=${cityName}&appid=${urlKey}`);
     const data = await response.json();
-    //console.log(data); 
+  
     return data; 
   
 }
 
 async function checkStatus(newData){
     const data = await newData; 
-   // console.log(data);
+  
     return data.cod; 
 }
 
@@ -72,7 +74,8 @@ async function drawCard(newData){
     weatherImage.alt = data.weather[0].desciption;
     weatherIcon.replaceChildren();
     weatherIcon.appendChild(weatherImage);
-
+      status.textContent = "Location found successfully"; 
+      time.textContent = `Last Updated: ${getRefresh()}`; 
     fiveDayForecast(data);
 }
 
@@ -95,7 +98,7 @@ async function fiveDayForecast(data) {
     const response = await fetch(fiveDayURL);
 
     const fiveDayData = await response.json();
-    console.log(fiveDayData.list);
+    
 
    const sixDays = groupByDay(fiveDayData.list, data.timezone);
    const fiveDays = sixDays.slice(1,6); 
@@ -175,15 +178,24 @@ function groupByDay(list, timezone) {
     for(const day in days){
         dayList.push(days[day]);
     }
-    console.log(dayList); 
+    
     return dayList;
 
 }
 
+   
+     function getRefresh(){
+        const time = new Date();
+        return time.toLocaleTimeString("en-US",{ hour: "2-digit", minute: "2-digit"}); 
+        
+    }
+
 //------Listeners------
 searchForm.addEventListener("submit", async function (event) {
     event.preventDefault();
-    console.log(cityInput.value);
+       status.textContent = "Loading...."; 
+       
+   
     if (cityInput.value === "" ) {
 
         status.textContent = "Please enter a valid input"; 
@@ -195,7 +207,8 @@ searchForm.addEventListener("submit", async function (event) {
            cityInput.value = ""; 
     }
     else{
-         status.textContent = ""; 
+      
+     
          drawCard(getWeather(cityInput.value));
          cityInput.value = ""; 
     }
@@ -205,3 +218,4 @@ searchForm.addEventListener("submit", async function (event) {
 //------Run on load------
 drawCard(getWeather("Stockton"));
 
+// lastUpdate("Stockton")
