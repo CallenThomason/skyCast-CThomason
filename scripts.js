@@ -1,6 +1,7 @@
+import { getWeather, checkStatus, getFiveDay} from "./apiCalls.js"; 
+
 //------Elements---------
-const baseUrl = "https://api.openweathermap.org/data/2.5/";
-const urlKey = "ef5eaf62b0397fca9023ac515f882f56";
+
 
 const city = document.getElementById("city-name");
 const temperature = document.getElementById("temperature");
@@ -31,23 +32,6 @@ const body = document.getElementById("body");
 
 //------Functions------
 
-async function getWeather(cityName) {
-
-
-    const response = await fetch(`${baseUrl}weather?q=${cityName}&units=imperial&appid=${urlKey}`);
-    // console.log(`${baseUrl}weather?q=${cityName}&appid=${urlKey}`);
-    const data = await response.json();
-  
-    return data; 
-  
-}
-
-async function checkStatus(newData){
-    const data = await newData; 
-  
-    return data.cod; 
-}
-
 async function drawCard(newData){
     const data = await newData; 
      city.textContent = data.name;
@@ -58,7 +42,7 @@ async function drawCard(newData){
     feelsLike.textContent = `Feels like: ${Math.round(data.main.feels_like)}°`;
     humidity.textContent = `Humidity: ${Math.round(data.main.humidity)}`;
     wind.textContent = `Wind: ${Math.round(data.wind.speed)}`;
-    //console.log(data.weather[0].description); 
+
     description.textContent = `${data.weather[0].description}`;
 
     if(description.textContent === "clear sky"){
@@ -83,7 +67,7 @@ async function drawCard(newData){
     sunset.textContent = `Sunset: ${getCityTime(data.sys.sunset, data.timezone)}`;
     dateEl.textContent = `${getCityDate(data.dt, data.timezone)}`; 
     country.textContent = `${data.sys.country}`; 
-    // https://openweathermap.org/img/wn/01d@2x.png
+
 
     const weatherImage = document.createElement("img");
 
@@ -111,13 +95,7 @@ function getCityDate(time, timezone) {
 async function fiveDayForecast(data) {
     fiveDayEl.replaceChildren();
 
-    const lon = data.coord.lon;
-    const lat = data.coord.lat;
-    const fiveDayURL = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=imperial&appid=${urlKey}`;
-    const response = await fetch(fiveDayURL);
-
-    const fiveDayData = await response.json();
-    
+    const fiveDayData = await getFiveDay(data); 
 
    const sixDays = groupByDay(fiveDayData.list, data.timezone);
    const fiveDays = sixDays.slice(1,6); 
@@ -166,6 +144,7 @@ function getDay(time, timezone){
 
 function groupByDay(list, timezone) {
     const days = {};
+    console.log(list); 
    
     for (const item of list) {
         const date = getCityDate(item.dt, timezone);
@@ -237,4 +216,3 @@ searchForm.addEventListener("submit", async function (event) {
 //------Run on load------
 drawCard(getWeather("Stockton"));
 
-// lastUpdate("Stockton")
