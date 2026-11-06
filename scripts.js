@@ -17,7 +17,7 @@ const dateEl = document.getElementById("date");
 const country = document.getElementById("country"); 
 
 const cityInput = document.getElementById("city-input");
-const searchButton = document.getElementById("city-submit");
+
 const searchForm = document.getElementById("search-form");
 const weatherIcon = document.getElementById("weather-icon")
 
@@ -144,7 +144,6 @@ function getDay(time, timezone){
 
 function groupByDay(list, timezone) {
     const days = {};
-    console.log(list); 
    
     for (const item of list) {
         const date = getCityDate(item.dt, timezone);
