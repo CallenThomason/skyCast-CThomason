@@ -102,7 +102,7 @@ async function fiveDayForecast(data) {
 
     for (const day of fiveDays) {
         const card = document.createElement("div");
-        card.className = "bg-green-200 border-2 border-slate-400 rounded-lg p-6 flex-row";
+        card.className = "bg-green-200 border-2 border-slate-400 rounded-lg p-6 flex-row m-1";
 
        const title = document.createElement("h3");
        title.className = "text-center font-semibold text-2xl";
